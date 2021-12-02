@@ -1,10 +1,19 @@
 import axios from 'axios';
 
+const entryPoint = document.querySelector('.cards');
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+axios.get('https://api.github.com/users/Timbobeek')
+  .then(resp => {
+    console.log(resp)
+  }).catch(error => {
+    console.error(error);
+  }).finally(() => console.log('operation complete!!!'))
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -51,6 +60,11 @@ const followersArray = [];
       </div>
     </div>
 */
+function followersCardMaker(object){
+  const followerCard = document.createElement('div')
+  const image = document.createElement('img')
+  
+}
 
 /*
   List of LS Instructors Github username's:
