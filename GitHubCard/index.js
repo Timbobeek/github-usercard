@@ -10,15 +10,33 @@ const entryPoint = document.querySelector('.cards');
 
 axios.get('https://api.github.com/users/Timbobeek')
   .then(resp => {
+    //console logs to see if we find the right elements, resp.data being the one we look at to build the rest
+    console.log(resp.data)
+    //console logs to check individual elements of the data object  
     console.log(resp.data.avatar_url)
     console.log(resp.data.bio)
+    console.log(resp.data.name)
+    console.log(resp.data.login)
+    console.log(resp.data.location)
+    console.log(resp.data.html_url)
+    console.log(resp.data.followers)
+    console.log(resp.data.following)
+
+    // writing up the object of a follower with key/value pairs necessary to fill in in our followersCardMaker function. values are gathered from teh data object found by axios.get('https://api.github.com/users/Timbobeek')
     const followerObj = {
       imageURL: resp.data.avatar_url,
-      bio: resp.data.bio
+      name: resp.data.name,
+      username: resp.data.login,
+      location: resp.data.location,
+      githubAddress: resp.data.html_url,
+      followers: resp.data.followers,
+      following: resp.data.following,
+      bio: resp.data.bio,
     }
+    //entryPoint is where in our dom structure we will put this object
     entryPoint.appendChild(followersCardMaker(followerObj));
-  }).catch(error => {
-    console.error(error);
+  }).catch(error => {  
+    console.error(error); /*this needed in case there is an error so we see it in the log, if our link cannot be reached*/
   }).finally(() => console.log('operation complete!!!'))
 
 /*
@@ -66,8 +84,9 @@ const followersArray = [];
       </div>
     </div>
 */
-function followersCardMaker({ imageURL, bio }){
+function followersCardMaker({ imageURL, name, username, location, githubAddress, followers, following, bio}){
   
+  //instantiated elements
   const followerCard = document.createElement('div')
   const followerAvatar = document.createElement('img')
   const followerInfo = document.createElement('div')
@@ -80,19 +99,25 @@ function followersCardMaker({ imageURL, bio }){
   const followerFollowing = document.createElement('p')
   const followerBio = document.createElement('p')
   
-  
+  //setting class names
   followerCard.classList.add('card')
   followerInfo.classList.add('card-info')
   followerName.classList.add('name')
   followerUsername.classList.add('username')
-  followerInfo.textContent = 'Good boi'
+  
+  //setting attributes, text, etc
   followerAvatar.src = imageURL
-  followerBio.textContent = bio
-  followerGitAddress.textContent = 'dsafdsafsfd'
-
-
-
-
+  followerName.textContent = name
+  followerUsername.textContent = username
+  followerLocation.textContent = `Location: ${location}`
+  followerProfile.textContent = `Profile: `
+  followerGitAddress.href = githubAddress;
+  followerGitAddress.textContent = githubAddress;
+  followerFollowers.textContent = `Followers: ${followers}`;
+  followerFollowing.textContent = `Following: ${following}`;
+  followerBio.textContent = `Bio: ${bio}`;
+  
+  //create the hierarchy (based on the html above in step3)
   followerCard.appendChild(followerAvatar)
   followerCard.appendChild(followerInfo)
   followerInfo.appendChild(followerName)
@@ -104,6 +129,10 @@ function followersCardMaker({ imageURL, bio }){
   followerInfo.appendChild(followerFollowing)
   followerInfo.appendChild(followerBio)
 
+  //could add buttons/interactivity here IF NEEDED
+
+
+  //return the beast
   return followerCard;
 }
 
