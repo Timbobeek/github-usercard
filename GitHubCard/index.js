@@ -10,7 +10,13 @@ const entryPoint = document.querySelector('.cards');
 
 axios.get('https://api.github.com/users/Timbobeek')
   .then(resp => {
-    console.log(resp)
+    console.log(resp.data.avatar_url)
+    console.log(resp.data.bio)
+    const followerObj = {
+      imageURL: resp.data.avatar_url,
+      bio: resp.data.bio
+    }
+    entryPoint.appendChild(followersCardMaker(followerObj));
   }).catch(error => {
     console.error(error);
   }).finally(() => console.log('operation complete!!!'))
@@ -60,11 +66,49 @@ const followersArray = [];
       </div>
     </div>
 */
-function followersCardMaker(object){
-  const followerCard = document.createElement('div')
-  const image = document.createElement('img')
+function followersCardMaker({ imageURL, bio }){
   
+  const followerCard = document.createElement('div')
+  const followerAvatar = document.createElement('img')
+  const followerInfo = document.createElement('div')
+  const followerName = document.createElement('h3')
+  const followerUsername = document.createElement('p')
+  const followerLocation = document.createElement('p')
+  const followerProfile = document.createElement('p')
+  const followerGitAddress = document.createElement('a')
+  const followerFollowers = document.createElement('p')
+  const followerFollowing = document.createElement('p')
+  const followerBio = document.createElement('p')
+  
+  
+  followerCard.classList.add('card')
+  followerInfo.classList.add('card-info')
+  followerName.classList.add('name')
+  followerUsername.classList.add('username')
+  followerInfo.textContent = 'Good boi'
+  followerAvatar.src = imageURL
+  followerBio.textContent = bio
+  followerGitAddress.textContent = 'dsafdsafsfd'
+
+
+
+
+  followerCard.appendChild(followerAvatar)
+  followerCard.appendChild(followerInfo)
+  followerInfo.appendChild(followerName)
+  followerInfo.appendChild(followerUsername)
+  followerInfo.appendChild(followerLocation)
+  followerInfo.appendChild(followerProfile)
+  followerProfile.appendChild(followerGitAddress)
+  followerInfo.appendChild(followerFollowers)
+  followerInfo.appendChild(followerFollowing)
+  followerInfo.appendChild(followerBio)
+
+  return followerCard;
 }
+
+
+
 
 /*
   List of LS Instructors Github username's:
