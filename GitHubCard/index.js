@@ -63,7 +63,17 @@ axios.get('https://api.github.com/users/Timbobeek')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+//links for step5
+
+const followersArray = [
+  'https://api.github.com/users/JessWillCode',
+  'https://api.github.com/users/gumsanmarip',
+  'https://api.github.com/users/DatBoiLuiskrrt',
+  'https://api.github.com/users/am-stewart',
+  'https://api.github.com/users/dbvker'
+];
+
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -135,6 +145,33 @@ function followersCardMaker({ imageURL, name, username, location, githubAddress,
   //return the beast
   return followerCard;
 }
+
+
+//function below is to add other cards based on array of links provided
+
+function createFollowersCards(array){
+  for (let i = 0; i < array.length; i++){
+    axios.get(array[i])
+    .then(resp => {
+      console.log(resp.data);
+      const followerObject = {
+        imageURL: resp.data.avatar_url,
+        name: resp.data.name,
+        username: resp.data.login,
+        location: resp.data.location,
+        githubAddress: resp.data.html_url,
+        followers: resp.data.followers,
+        following: resp.data.following,
+        bio: resp.data.bio
+      }
+      entryPoint.appendChild(followersCardMaker(followerObject));
+    }).catch(error => {
+      console.error(error);
+    }).finally(()=>console.log('gucci gang'))
+  }
+}
+
+createFollowersCards(followersArray);
 
 
 
